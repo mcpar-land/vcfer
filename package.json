@@ -1,0 +1,68 @@
+{
+	"name": "vcfer",
+	"version": "1.0.0",
+	"description": "A robust, heavily typed vCard and jCard parser.",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"files": [
+		"lib/**/*"
+	],
+	"scripts": {
+		"test": "jest --colors",
+		"test:watch": "jest --colors --watch",
+		"build": "tsc",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"lint": "tslint -p tsconfig.json",
+		"prepare": "npm run build",
+		"prepublishOnly": "npm test && npm run lint",
+		"preversion": "npm run lint",
+		"version": "npm run format && git add -A src",
+		"postversion": "git push && git push --tags"
+	},
+	"jest": {
+		"verbose": true,
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+		"collectCoverage": true,
+		"collectCoverageFrom": [
+			"src/**/*.ts"
+		],
+		"coverageReporters": [
+			"json"
+		],
+		"moduleDirectories": [
+			"node_modules",
+			"src"
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mcpar-land/vcfer"
+	},
+	"keywords": [
+		"vcard",
+		"jcard",
+		"vcf"
+	],
+	"author": "mcpar-land",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/jest": "^24.0.23",
+		"@types/node": "^12.12.7",
+		"@typescript-eslint/eslint-plugin": "^2.7.0",
+		"@typescript-eslint/parser": "^2.7.0",
+		"eslint": "^6.6.0",
+		"eslint-config-prettier": "^6.5.0",
+		"eslint-plugin-prettier": "^3.1.1",
+		"jest": "^24.9.0",
+		"prettier": "^1.19.1",
+		"ts-jest": "^24.1.0",
+		"typescript": "^3.7.2"
+	},
+	"dependencies": {
+		"camelcase": "^5.3.1",
+		"foldline": "^1.1.0"
+	}
+}
