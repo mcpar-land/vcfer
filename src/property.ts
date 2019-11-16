@@ -13,10 +13,35 @@ const ARRAY_TEXT_FIELDS: string[] = ['n', 'adr']
 /** A vCard property */
 export class Property {
 	private field: string = ''
+	/**
+	 * the value of the property.
+	 * @example '(123) 456 7890'
+	 */
 	public value: string = ''
+	/**
+	 * the group of the property.
+	 * @example 'item1'
+	 */
 	public group: string | undefined
+	/**
+	 * An jCard parameters object.
+	 * @example
+	 * {
+	 * 	type: ['work', 'voice', 'pref'],
+	 * 	value: 'uri'
+	 * }
+	 */
 	public params: { [key: string]: string | string[] } = {}
 
+	/**
+	 * A class describing a single vCard property.
+	 *
+	 * Accepts either 2-4 arguments, or 1 argument in jCard property format.
+	 * @param arg the field, or a jCard property
+	 * @param value
+	 * @param params
+	 * @param group
+	 */
 	constructor(
 		arg: string | JCardProperty,
 		value?: string,
@@ -116,14 +141,20 @@ export class Property {
 		}
 	}
 
+	/** Returns `true` if the property is empty. */
 	public isEmpty(): boolean {
 		return this.value == null && Object.keys(this.params).length === 0
 	}
 
+	/** Returns a readonly string of the property's field. */
 	public getField(): string {
-		return this.field
+		return this.field + ''
 	}
 
+	/**
+	 * Returns a `.vcf` formatted line.
+	 * @param version (unfinished)
+	 */
 	public toString(version?: CardVersion): string {
 		const paramReducer = (accumulator: string, key: string) => {
 			const param = this.params[key]
@@ -146,6 +177,9 @@ export class Property {
 		)
 	}
 
+	/**
+	 * Returns a JSON array in a jCard property format
+	 */
 	public toJSON(): JCardProperty {
 		const newParams = { ...this.params }
 

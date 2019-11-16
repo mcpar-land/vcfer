@@ -64,5 +64,13 @@
 
 		/* Advanced Options */
 		"forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+	},
+	"typedocOptions": {
+		"mode": "file",
+		"out": "docs",
+		"readme": "none",
+		"toc": ["VCard", "Property"],
+		"excludeNotExported": true,
+		"exclude": ["./src/util/**/*.*"]
 	}
 }

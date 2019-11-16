@@ -14,6 +14,24 @@ export class VCard {
 	public version: CardVersion = VCard.versions[VCard.versions.length - 1]
 	public props: Map<string, Property[]>
 
+	/**
+	 * A class describing a single vCard object.
+	 * Accepts a `string` or `Buffer` with the contents of a `.vcf` file,
+	 * or a JSON `object` in jCard format.
+	 *
+	 * @example
+	 * ```javascript
+	 * new VCard(fs.readFileSync('card.vcf'));
+	 * ```
+	 * @example
+	 * ```javascript
+	 * new VCard('...vcf string...');
+	 * ```
+	 * @example
+	 * ```javascript
+	 * new VCard(require('./jcard.json'));
+	 * ```
+	 */
 	constructor(input?: string | Buffer | JCard) {
 		this.props = new Map<string, Property[]>()
 
@@ -72,12 +90,32 @@ export class VCard {
 		json[1].forEach(jprop => this.add(new Property(jprop)))
 	}
 
-	public get(key: string, type?: string): Property[] {
-		return this.props.get(key) || []
+	/**
+	 * Retrieve an array of Property objects under the specified field.
+	 * Returns [] if there are no Property objects found.
+	 * Properites are always stored in an array.
+	 * @param field to get.
+	 * @param type (unfinished. Will be able to filter arrays by type.)
+	 */
+	public get(field: string, type?: string): Property[] {
+		return this.props.get(field) || []
 
 		// TODO with type filter-er
 	}
 
+	/**
+	 * Set the contents of a field to contain a single Property.
+	 *
+	 * Accepts either 2-4 arguments to construct a Property,
+	 * or 1 argument of a preexisting Property object.
+	 *
+	 * This will always overwrite all existing properties of the given
+	 * field. For just adding a new property, see `VCard#add()`
+	 * @param arg the field, or a Property object
+	 * @param value
+	 * @param params
+	 * @param group
+	 */
 	public set(
 		arg: string | Property,
 		value?: string,
@@ -100,6 +138,17 @@ export class VCard {
 			)
 	}
 
+	/**
+	 * Adds a property without modifying other properties.
+	 *
+	 * Accepts either 2.4 arguments to construct a Property,
+	 * or 1 argument of a preexisting Property object.
+	 *
+	 * @param arg the field, or a Property object
+	 * @param value
+	 * @param params
+	 * @param group
+	 */
 	public add(
 		arg: string | Property,
 		value?: string,
@@ -131,6 +180,11 @@ export class VCard {
 			)
 	}
 
+	/**
+	 * Removes a property, or all properties of the supplied field.
+	 * @param arg the field, or a Property object
+	 * @param paramFilter (incomplete)
+	 */
 	public remove(
 		arg: string | Property,
 		paramFilter?: { [key: string]: string | string[] }
@@ -161,15 +215,27 @@ export class VCard {
 			)
 	}
 
+	/**
+	 * Returns true if the vCard has at least one property
+	 * of the given field.
+	 * @param field
+	 */
 	public has(field: string): boolean {
 		return this.props.has(field)
 	}
 
+	/**
+	 * returns a `.vcf` formatted string with CRLF endings.
+	 * @param version (incomplete)
+	 */
 	public toString(version?: CardVersion): string {
 		const v = version || this.version
 		return formatCard(this, v)
 	}
 
+	/**
+	 * Returns a jCard object as a JSON array.
+	 */
 	public toJCard(): JCard {
 		const data: JCardProperty[] = [['version', {}, 'text', '4.0']]
 
@@ -192,15 +258,19 @@ export class VCard {
 		return ['vcard', data]
 	}
 
-	// public toJSON(): JCard {
-	// 	return this.toJCard()
-	// }
-
+	/**
+	 * Creates an array of vCard objects from a multi-card `.vcf` string.
+	 * @param input
+	 */
 	public static fromMultiCardString(input: string | Buffer): VCard[] {
 		const cardStrings = String(input).split(/(?=BEGIN\:VCARD)/gi)
 		return cardStrings.map(cardString => new VCard(cardString))
 	}
 
+	/**
+	 * Returns true if the version is supported.
+	 * @param version
+	 */
 	public static isSupported(version: string) {
 		return (
 			/^\d\.\d$/.test(version) &&

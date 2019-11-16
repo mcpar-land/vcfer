@@ -13,6 +13,7 @@
 		"build": "tsc",
 		"format": "prettier --write \"src/**/*.ts\"",
 		"lint": "tslint -p tsconfig.json",
+		"documentation": "rm -rf ./docs && typedoc",
 		"prepare": "npm run build",
 		"prepublishOnly": "npm test && npm run lint",
 		"preversion": "npm run lint",
@@ -59,6 +60,8 @@
 		"jest": "^24.9.0",
 		"prettier": "^1.19.1",
 		"ts-jest": "^24.1.0",
+		"typedoc": "^0.15.2",
+		"typedoc-plugin-markdown": "^2.2.11",
 		"typescript": "^3.7.2"
 	},
 	"dependencies": {
