@@ -1,6 +1,6 @@
 import { VCard, normalizeCard, JCard } from './vcard'
 import { Property } from './property'
-import { readFileSync } from 'fs'
+import { readFileSync, readdirSync } from 'fs'
 
 let card: VCard
 
@@ -37,6 +37,22 @@ describe('VCard instantiation', () => {
 			readFileSync(testFileName('multiple.vcf'))
 		)
 		expect(cards.length).toBe(3)
+	})
+
+	test('read all cards in test data directory', async () => {
+		const files = readdirSync(__dirname + '/test_data/')
+		await Promise.all(
+			files
+				.filter(fname => fname.includes('.vcf'))
+				.map(async (fname, index) => {
+					const file = readFileSync(__dirname + '/test_data/' + fname)
+					try {
+						return expect(new VCard(file)).toBeDefined()
+					} catch (err) {
+						throw new Error(`ERROR reading file: ${fname}: ${err.message}`)
+					}
+				})
+		)
 	})
 })
 

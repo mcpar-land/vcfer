@@ -112,9 +112,13 @@ export class VCard {
 			throw new Error(`Unsupported version "${this.version}"`)
 
 		lines.forEach(line => {
-			const p = new Property(line)
-			const ignoreProps = ['begin', 'end']
-			if (!ignoreProps.includes(p.getField())) this.add(new Property(line))
+			try {
+				const p = new Property(line)
+				const ignoreProps = ['begin', 'end']
+				if (!ignoreProps.includes(p.getField())) this.add(new Property(line))
+			} catch (err) {
+				console.warn(err.message)
+			}
 		})
 	}
 
