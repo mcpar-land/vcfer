@@ -73,6 +73,22 @@ test('create property from vcf line', () => {
 	)
 })
 
+test('camel case field', () => {
+	p = new Property(
+		'X-SOCIALPROFILE;type=pref;type=twitter:http://twitter.com/johndoe'
+	)
+	expect(p.getField()).toBe('xSocialprofile')
+})
+
+// X-SOCIALPROFILE;type=pref;type=twitter:http://twitter.com/johndoe
+test('concatenate duplicate types', () => {
+	p = new Property(
+		'X-SOCIALPROFILE;type=pref;type=twitter:http://twitter.com/johndoe'
+	)
+	console.log(p.params['type'])
+	expect(p.params['type']).toEqual(['pref', 'twitter'])
+})
+
 test('toJSON()', () => {
 	const json: JCardProperty = ['n', {}, 'text', ['Gump', 'Forrest', '', '', '']]
 	p = new Property(json)

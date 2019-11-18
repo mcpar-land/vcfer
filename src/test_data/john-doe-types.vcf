@@ -1,0 +1,38 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iPhone OS 12.2//EN
+N:Doe;John;;;Sr.
+FN: John  Doe Sr.
+NICKNAME:Johnny boi
+X-PHONETIC-FIRST-NAME:John
+ORG:Example Inc.;
+EMAIL;type=INTERNET;type=HOME;type=pref:johndoe@example.com
+EMAIL;type=INTERNET;type=WORK;type=WRERG:johndoe@gmail.com
+EMAIL;type=FRINDLE:johndoe@gmail.com
+TEL;type=HOME;type=VOICE:(987) 654-3210
+TEL;type=VOICE;type=WORK:(111) 222-3344
+TEL;type=PAGER:(222) 222-2222
+TEL;type=FRINDLE;type=pref:(123) 456 7890
+ADR;type=NO:;;123 No St.;No York;NO;12345;United States of No
+item1.ADR;type=HOME;type=pref:;;123 Example Ln.;New York;NY;12345;United States
+item1.X-ABADR:us
+X-SOCIALPROFILE;type=pref;type=twitter:http://twitter.com/johndoe
+X-SOCIALPROFILE;type=facebook:http://www.facebook.com/johndoe
+X-SOCIALPROFILE;type=flickr:http://www.flickr.com/photos/johndoe
+X-SOCIALPROFILE;type=linkedin:http://www.linkedin.com/in/johndoe
+X-SOCIALPROFILE;type=myspace:http://www.myspace.com/johndoe
+X-SOCIALPROFILE;type=obscuresite:http://example.com/johndoe
+item2.URL;type=pref:example.com
+item2.X-ABLabel:_$!<HomePage>!$_
+BDAY;X-APPLE-OMIT-YEAR=1604:1604-11-04
+item3.X-MSN;type=pref:johndoe
+item3.X-ABLabel:MSN
+item4.IMPP;X-SERVICE-TYPE=Skype;type=pref:skype:johndoe
+item4.X-ABLabel:Skype
+item5.IMPP;X-SERVICE-TYPE=MSN:msnim:johndoe
+item5.X-ABLabel:MSN
+item6.IMPP;X-SERVICE-TYPE=GoogleTalk:xmpp:johndoe
+item6.X-ABLabel:GoogleTalk
+item7.X-ABDATE;X-APPLE-OMIT-YEAR=1604;type=pref:1604-11-04
+item7.X-ABLabel:_$!<Anniversary>!$_
+END:VCARD

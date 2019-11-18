@@ -270,7 +270,10 @@ export class VCard {
 	 * @param field The field to query
 	 */
 	public has(field: string): boolean {
-		return this.props.has(field)
+		return (
+			!!this.props.get(field) &&
+			(this.props.get(field) as Property[]).length > 0
+		)
 	}
 
 	/**
