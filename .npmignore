@@ -1,0 +1,9 @@
+node_modules
+src
+docs
+coverage
+website
+.tsconfig.json
+.prettierignore
+.prettierrc
+.eslintrc.json

@@ -3,7 +3,6 @@ import { Property } from './property'
 import { readFileSync } from 'fs'
 
 let card: VCard
-let cards: VCard[]
 
 const testFileName = (name: string) => __dirname + '/test_data/' + name
 

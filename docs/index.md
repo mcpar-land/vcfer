@@ -25,7 +25,7 @@ sidebar_label: "Globals"
 
 Ƭ **CardVersion**: *"2.1" | "3.0" | "4.0"*
 
-*Defined in [vcard.ts:5](https://github.com/mcpar-land/vcfer/blob/2de0570/src/vcard.ts#L5)*
+*Defined in [vcard.ts:5](https://github.com/mcpar-land/vcfer/blob/5c26500/src/vcard.ts#L5)*
 
 String literal type containing all supported vCard versions.
 
@@ -35,7 +35,7 @@ ___
 
 Ƭ **JCard**: *["vcard", [JCardProperty](index.md#jcardproperty)[]]*
 
-*Defined in [vcard.ts:36](https://github.com/mcpar-land/vcfer/blob/2de0570/src/vcard.ts#L36)*
+*Defined in [vcard.ts:36](https://github.com/mcpar-land/vcfer/blob/5c26500/src/vcard.ts#L36)*
 
 Describes the format of a valid jCard.
 
@@ -72,7 +72,7 @@ ___
 
 Ƭ **JCardProperty**: *[string, object, string, string | string[]]*
 
-*Defined in [property.ts:12](https://github.com/mcpar-land/vcfer/blob/2de0570/src/property.ts#L12)*
+*Defined in [property.ts:12](https://github.com/mcpar-land/vcfer/blob/5c26500/src/property.ts#L12)*
 
 Describes the format of a valid jCard property.
 

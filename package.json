@@ -12,11 +12,11 @@
 		"test:watch": "jest --colors --watch",
 		"build": "tsc",
 		"format": "prettier --write \"src/**/*.ts\"",
-		"lint": "tslint -p tsconfig.json",
+		"lint": "eslint \"src/**/*.ts\"",
 		"documentation": "rm -rf ./docs && typedoc --theme docusaurus2",
 		"prepare": "npm run build",
 		"prepublishOnly": "npm test && npm run lint",
-		"preversion": "npm run lint",
+		"preversion": "npm run lint && npm run documentation",
 		"version": "npm run format && git add -A src",
 		"postversion": "git push && git push --tags"
 	},
@@ -44,10 +44,15 @@
 		"type": "git",
 		"url": "git+https://github.com/mcpar-land/vcfer"
 	},
+	"bugs": {
+		"url": "https://github.com/mcpar-land/vcfer/issues"
+	},
+	"homepage": "https://github.com/mcpar-land/vcfer#readme",
 	"keywords": [
 		"vcard",
 		"jcard",
-		"vcf"
+		"vcf",
+		"typescript"
 	],
 	"author": "mcpar-land",
 	"license": "ISC",

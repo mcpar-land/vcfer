@@ -1,6 +1,6 @@
 <h1 align="center"><code>vcfer</code> 📇</h1>
 <p align="center">An easy-to-use vCard and jCard parser.</p>
-<h3 align="center"><a href="docs/index.md">Documentation</a></h3>
+<h3 align="center"><a href="https://github.com/mcpar-land/vcfer/blob/master/docs/index.md">Documentation</a></h3>
 
 ---
 
