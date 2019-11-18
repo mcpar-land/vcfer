@@ -1,6 +1,10 @@
-[vcfer](../README.md) › [VCard](vcard.md)
+---
+id: "vcard"
+title: "VCard"
+sidebar_label: "VCard"
+---
 
-# Class: VCard
+[vcfer](../index.md) › [VCard](vcard.md)
 
 ## Hierarchy
 
@@ -39,13 +43,13 @@
 
 ###  constructor
 
-\+ **new VCard**(`input?`: string | Buffer | [JCard](../README.md#jcard)): *[VCard](vcard.md)*
+\+ **new VCard**(`input?`: string | Buffer | [JCard](../index.md#jcard)): *[VCard](vcard.md)*
 
-Defined in vcard.ts:15
+*Defined in [vcard.ts:49](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L49)*
 
 A class describing a single vCard object.
 Accepts a `string` or `Buffer` with the contents of a `.vcf` file,
-or a JSON `object` in jCard format.
+or a JSON `object` in [JCard](../index.md#jcard) format.
 
 **`example`** 
 ```javascript
@@ -66,7 +70,7 @@ new VCard(require('./jcard.json'));
 
 Name | Type |
 ------ | ------ |
-`input?` | string &#124; Buffer &#124; [JCard](../README.md#jcard) |
+`input?` | string &#124; Buffer &#124; [JCard](../index.md#jcard) |
 
 **Returns:** *[VCard](vcard.md)*
 
@@ -76,15 +80,18 @@ Name | Type |
 
 • **props**: *Map‹string, [Property](property.md)[]›*
 
-Defined in vcard.ts:15
+*Defined in [vcard.ts:49](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L49)*
+
+Map of [Property](property.md) arrays associated with a vCard property name.
+A property with a single value will simply be an array of size 1.
 
 ___
 
 ###  version
 
-• **version**: *[CardVersion](../README.md#cardversion)* =  VCard.versions[VCard.versions.length - 1]
+• **version**: *[CardVersion](../index.md#cardversion)*
 
-Defined in vcard.ts:14
+*Defined in [vcard.ts:44](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L44)*
 
 ___
 
@@ -94,7 +101,7 @@ ___
 "* = "
 "
 
-Defined in vcard.ts:12
+*Defined in [vcard.ts:42](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L42)*
 
 ___
 
@@ -102,7 +109,7 @@ ___
 
 ▪ **extension**: *".vcf"* = ".vcf"
 
-Defined in vcard.ts:10
+*Defined in [vcard.ts:40](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L40)*
 
 ___
 
@@ -110,15 +117,15 @@ ___
 
 ▪ **mimeType**: *"text/vcard"* = "text/vcard"
 
-Defined in vcard.ts:9
+*Defined in [vcard.ts:39](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L39)*
 
 ___
 
 ### `Static` versions
 
-▪ **versions**: *[CardVersion](../README.md#cardversion)[]* =  ['2.1', '3.0', '4.0']
+▪ **versions**: *[CardVersion](../index.md#cardversion)[]* =  ['2.1', '3.0', '4.0']
 
-Defined in vcard.ts:11
+*Defined in [vcard.ts:41](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L41)*
 
 ## Methods
 
@@ -126,21 +133,21 @@ Defined in vcard.ts:11
 
 ▸ **add**(`arg`: string | [Property](property.md), `value?`: undefined | string, `params?`: undefined | object, `group?`: undefined | string): *[Property](property.md)*
 
-Defined in vcard.ts:152
+*Defined in [vcard.ts:187](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L187)*
 
-Adds a property without modifying other properties.
+Adds a [Property](property.md) without modifying other properties.
 
-Accepts either 2.4 arguments to construct a Property,
-or 1 argument of a preexisting Property object.
+Accepts either 2.4 arguments to construct a [Property](property.md),
+or 1 argument of a preexisting [Property](property.md) object.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`arg` | string &#124; [Property](property.md) | the field, or a Property object |
-`value?` | undefined &#124; string | - |
-`params?` | undefined &#124; object | - |
-`group?` | undefined &#124; string |   |
+`arg` | string &#124; [Property](property.md) | the field, or a [Property](property.md) object |
+`value?` | undefined &#124; string | the value for the Property object |
+`params?` | undefined &#124; object | the parameters for the Property object |
+`group?` | undefined &#124; string | the group for the Property object  |
 
 **Returns:** *[Property](property.md)*
 
@@ -150,9 +157,9 @@ ___
 
 ▸ **get**(`field`: string, `type?`: undefined | string): *[Property](property.md)[]*
 
-Defined in vcard.ts:100
+*Defined in [vcard.ts:135](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L135)*
 
-Retrieve an array of Property objects under the specified field.
+Retrieve an array of [Property](property.md) objects under the specified field.
 Returns [] if there are no Property objects found.
 Properites are always stored in an array.
 
@@ -171,16 +178,16 @@ ___
 
 ▸ **has**(`field`: string): *boolean*
 
-Defined in vcard.ts:223
+*Defined in [vcard.ts:258](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L258)*
 
-Returns true if the vCard has at least one property
+Returns true if the vCard has at least one @{link Property}
 of the given field.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`field` | string |   |
+`field` | string | The field to query  |
 
 **Returns:** *boolean*
 
@@ -188,15 +195,15 @@ ___
 
 ### `Private` parseFromJCard
 
-▸ **parseFromJCard**(`_json`: [JCard](../README.md#jcard)): *void*
+▸ **parseFromJCard**(`_json`: [JCard](../index.md#jcard)): *void*
 
-Defined in vcard.ts:86
+*Defined in [vcard.ts:121](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L121)*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`_json` | [JCard](../README.md#jcard) |
+`_json` | [JCard](../index.md#jcard) |
 
 **Returns:** *void*
 
@@ -206,7 +213,7 @@ ___
 
 ▸ **parseFromVcf**(`vcf`: string | Buffer): *void*
 
-Defined in vcard.ts:50
+*Defined in [vcard.ts:85](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L85)*
 
 **Parameters:**
 
@@ -222,15 +229,15 @@ ___
 
 ▸ **remove**(`arg`: string | [Property](property.md), `paramFilter?`: undefined | object): *void*
 
-Defined in vcard.ts:188
+*Defined in [vcard.ts:223](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L223)*
 
-Removes a property, or all properties of the supplied field.
+Removes a [Property](property.md), or all properties of the supplied field.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`arg` | string &#124; [Property](property.md) | the field, or a Property object |
+`arg` | string &#124; [Property](property.md) | the field, or a [Property](property.md) object |
 `paramFilter?` | undefined &#124; object | (incomplete)  |
 
 **Returns:** *void*
@@ -241,24 +248,24 @@ ___
 
 ▸ **set**(`arg`: string | [Property](property.md), `value?`: undefined | string, `params?`: undefined | object, `group?`: undefined | string): *[Property](property.md)*
 
-Defined in vcard.ts:119
+*Defined in [vcard.ts:154](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L154)*
 
-Set the contents of a field to contain a single Property.
+Set the contents of a field to contain a single [Property](property.md).
 
 Accepts either 2-4 arguments to construct a Property,
 or 1 argument of a preexisting Property object.
 
 This will always overwrite all existing properties of the given
-field. For just adding a new property, see `VCard#add()`
+field. For just adding a new property, see {@link VCard#add}
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
 `arg` | string &#124; [Property](property.md) | the field, or a Property object |
-`value?` | undefined &#124; string | - |
-`params?` | undefined &#124; object | - |
-`group?` | undefined &#124; string |   |
+`value?` | undefined &#124; string | the value for the Property object |
+`params?` | undefined &#124; object | the parameters for the Property object |
+`group?` | undefined &#124; string | the group for the Property object  |
 
 **Returns:** *[Property](property.md)*
 
@@ -266,21 +273,21 @@ ___
 
 ###  toJCard
 
-▸ **toJCard**(): *[JCard](../README.md#jcard)*
+▸ **toJCard**(): *[JCard](../index.md#jcard)*
 
-Defined in vcard.ts:239
+*Defined in [vcard.ts:274](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L274)*
 
-Returns a jCard object as a JSON array.
+Returns a [JCard](../index.md#jcard) object as a JSON array.
 
-**Returns:** *[JCard](../README.md#jcard)*
+**Returns:** *[JCard](../index.md#jcard)*
 
 ___
 
 ###  toString
 
-▸ **toString**(`version?`: [CardVersion](../README.md#cardversion)): *string*
+▸ **toString**(`version?`: [CardVersion](../index.md#cardversion)): *string*
 
-Defined in vcard.ts:231
+*Defined in [vcard.ts:266](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L266)*
 
 returns a `.vcf` formatted string with CRLF endings.
 
@@ -288,7 +295,7 @@ returns a `.vcf` formatted string with CRLF endings.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`version?` | [CardVersion](../README.md#cardversion) | (incomplete)  |
+`version?` | [CardVersion](../index.md#cardversion) | (incomplete)  |
 
 **Returns:** *string*
 
@@ -298,7 +305,7 @@ ___
 
 ▸ **fromMultiCardString**(`input`: string | Buffer): *[VCard](vcard.md)[]*
 
-Defined in vcard.ts:265
+*Defined in [vcard.ts:300](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L300)*
 
 Creates an array of vCard objects from a multi-card `.vcf` string.
 
@@ -306,7 +313,7 @@ Creates an array of vCard objects from a multi-card `.vcf` string.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`input` | string &#124; Buffer |   |
+`input` | string &#124; Buffer | string or Buffer containing 1 or more vCards  |
 
 **Returns:** *[VCard](vcard.md)[]*
 
@@ -316,7 +323,7 @@ ___
 
 ▸ **isSupported**(`version`: string): *boolean*
 
-Defined in vcard.ts:274
+*Defined in [vcard.ts:309](https://github.com/mcpar-land/vcfer/blob/329e7d4/src/vcard.ts#L309)*
 
 Returns true if the version is supported.
 
@@ -324,6 +331,6 @@ Returns true if the version is supported.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`version` | string |   |
+`version` | string | The version to query  |
 
 **Returns:** *boolean*

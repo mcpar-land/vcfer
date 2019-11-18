@@ -13,7 +13,7 @@
 		"build": "tsc",
 		"format": "prettier --write \"src/**/*.ts\"",
 		"lint": "tslint -p tsconfig.json",
-		"documentation": "rm -rf ./docs && typedoc",
+		"documentation": "rm -rf ./docs && typedoc --theme docusaurus2",
 		"prepare": "npm run build",
 		"prepublishOnly": "npm test && npm run lint",
 		"preversion": "npm run lint",
@@ -28,14 +28,16 @@
 		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
 		"collectCoverage": true,
 		"collectCoverageFrom": [
-			"src/**/*.ts"
+			"src/**/*.ts",
+			"!src/index.ts"
 		],
 		"coverageReporters": [
-			"json"
+			"json",
+			"lcov",
+			"text"
 		],
 		"moduleDirectories": [
-			"node_modules",
-			"src"
+			"node_modules"
 		]
 	},
 	"repository": {
@@ -61,6 +63,7 @@
 		"prettier": "^1.19.1",
 		"ts-jest": "^24.1.0",
 		"typedoc": "^0.15.2",
+		"typedoc-plugin-internal-external": "^2.0.2",
 		"typedoc-plugin-markdown": "^2.2.11",
 		"typescript": "^3.7.2"
 	},

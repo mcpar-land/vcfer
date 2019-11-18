@@ -2,6 +2,13 @@ import camelCase from 'camelcase'
 import capitalDashCase from './util/capital-dash-case'
 import { CardVersion } from './vcard'
 
+/**
+ * Describes the format of a valid jCard property.
+ * @example
+ * ```json
+ * [ "tel", { "type": [ "home", "voice" ], "group": "item1" }, "uri", "tel:+1-404-555-1213" ]
+ * ```
+ */
 export type JCardProperty = [
 	string,
 	{ [key: string]: string | string[] },
@@ -10,7 +17,7 @@ export type JCardProperty = [
 ]
 const ARRAY_TEXT_FIELDS: string[] = ['n', 'adr']
 
-/** A vCard property */
+/** A vCard property. */
 export class Property {
 	private field: string = ''
 	/**
@@ -35,6 +42,8 @@ export class Property {
 
 	/**
 	 * A class describing a single vCard property.
+	 * Will almost always be a member of a
+	 * {@link VCard}'s [props]{@link VCard.props} map.
 	 *
 	 * Accepts either 2-4 arguments, or 1 argument in jCard property format.
 	 * @param arg the field, or a jCard property
@@ -106,6 +115,7 @@ export class Property {
 			}
 			if (k === 'type') {
 				// TODO what does this line do?
+				// https://github.com/jhermsmeier/node-vcf/blob/a1a01dd815d1126b2c200aa4d1748feb323c48b8/lib/parse-lines.js#L27
 				if (v[0] === '"' && v[v.length - 1] === '"' && v.indexOf(',') !== -1)
 					v = v.slice(1, -1)
 				v.toLowerCase()
@@ -178,7 +188,7 @@ export class Property {
 	}
 
 	/**
-	 * Returns a JSON array in a jCard property format
+	 * Returns a JSON array in a [jCard property]{@link JCardProperty} format
 	 */
 	public toJSON(): JCardProperty {
 		const newParams = { ...this.params }

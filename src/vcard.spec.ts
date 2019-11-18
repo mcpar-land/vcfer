@@ -32,6 +32,13 @@ describe('VCard instantiation', () => {
 		const json = require('./test_data/jcard')
 		expect(new VCard(json)).toBeDefined()
 	})
+
+	test('create multiple', () => {
+		const cards = VCard.fromMultiCardString(
+			readFileSync(testFileName('multiple.vcf'))
+		)
+		expect(cards.length).toBe(3)
+	})
 })
 
 describe('VCard class', () => {
@@ -114,6 +121,29 @@ describe('VCard class', () => {
 		// console.log(card.toString())
 	})
 
+	test('remove()', () => {
+		expect(card.get('title')[0].value).toBe('Shrimp Man')
+		card.remove('title')
+		expect(card.get('title').length).toBe(0)
+		expect(card.get('tel')[0].value).toBe('tel:+11115551212')
+		card.remove(card.get('tel')[0])
+		expect(card.get('tel')[0].value).toBe('tel:+14045551212')
+		card.remove(card.get('tel')[1])
+		expect(card.get('tel')[0].value).toBe('tel:+14045551212')
+		expect(card.get('tel').length).toBe(1)
+		card.remove(card.get('tel')[0])
+		expect(card.get('tel').length).toBe(0)
+
+		expect(() => card.remove(new Property('asdf', '1234'))).toThrowError(
+			'Attempted to remove property VCard does not have: ASDF:1234'
+		)
+		// @ts-ignore
+		expect(() => card.remove({})).toThrowError(
+			'invalid argument of VCard.remove(), expects ' +
+				'string and optional param filter or a Property'
+		)
+	})
+
 	test('toString() renders populated properties', () => {
 		const c = new VCard()
 		c.set('tel', '000')
@@ -132,9 +162,19 @@ describe('VCard class', () => {
 		expect(/item1.TEL:00/i.test(card.toString())).toBe(true)
 	})
 
-	test('toJSON()', () => {
+	test('toJCard()', () => {
 		const json: JCard = require('./test_data/jcard')
 		const c = new VCard(json)
 		expect(c.toJCard()).toEqual(json)
 	})
+})
+
+test('h', () => {
+	const c = new VCard()
+	c.add('n', 'Saw;Timber;;;')
+	c.add('fn', 'Timber Saw')
+	c.add('title', 'Rizzrack, the Timbersaw')
+	c.add('tel', '(123) 456 7890', { type: ['work'] })
+	console.log(c.toString())
+	console.log(JSON.stringify(c.toJCard(), null, 2))
 })

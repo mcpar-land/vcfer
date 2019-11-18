@@ -1,8 +1,38 @@
 import foldLine from 'foldline'
 import { JCardProperty, Property } from './property'
 
+/** String literal type containing all supported vCard versions. */
 export type CardVersion = '2.1' | '3.0' | '4.0'
 
+/**
+ * Describes the format of a valid jCard.
+ * @example
+ * ```json
+ * [ "vcard",
+ * 	[
+ * 		[ "version", {}, "text", "4.0" ],
+ * 		[ "n", {}, "text", [ "Gump", "Forrest", "", "", "" ] ],
+ * 		[ "fn", {}, "text", "Forrest Gump" ],
+ * 		[ "org", {}, "text", "Bubba Gump Shrimp Co" ],
+ * 		[ "title", {}, "text", "Shrimp Man" ],
+ * 		[ "photo", { "mediatype": "image/gif" }, "uri", "http://www.example.com/dir_photos/my_photo.gif" ],
+ * 		[ "tel", { "type": [ "work", "voice" ] }, "uri", "tel:+1-111-555-1212" ],
+ * 		[ "tel", { "type": [ "home", "voice" ] }, "uri", "tel:+1-404-555-1212" ],
+ * 		[ "tel", { "type": [ "home", "voice" ], "group": "item1" }, "uri", "tel:+1-404-555-1213" ],
+ * 		[
+ * 			"adr", { "type": "work", "label": "100 Waters Edge\nBaytown, LA 30314\nUnited States of America" },
+ * 			"text", [ "", "", "100 Waters Edge", "Baytown", "LA", "30314", "United States of America" ]
+ * 		],
+ * 		[
+ * 			"adr", { "type": "home", "label": "42 Plantation St.\nBaytown, LA 30314\nUnited States of America" },
+ * 			"text", [ "", "", "42 Plantation St.", "Baytown", "LA", "30314", "United States of America" ]
+ * 		],
+ * 		[ "email", {}, "text", "forrestgump@example.com" ],
+ * 		[ "rev", {}, "timestamp", "2008-04-24T19:52:43Z" ]
+ * 	]
+ * ]
+ * ```
+ */
 export type JCard = ['vcard', JCardProperty[]]
 
 export class VCard {
@@ -11,13 +41,17 @@ export class VCard {
 	public static versions: CardVersion[] = ['2.1', '3.0', '4.0']
 	public static eol: '\r\n' = '\r\n'
 
-	public version: CardVersion = VCard.versions[VCard.versions.length - 1]
+	public version: CardVersion
+	/**
+	 * Map of {@link Property} arrays associated with a vCard property name.
+	 * A property with a single value will simply be an array of size 1.
+	 */
 	public props: Map<string, Property[]>
 
 	/**
 	 * A class describing a single vCard object.
 	 * Accepts a `string` or `Buffer` with the contents of a `.vcf` file,
-	 * or a JSON `object` in jCard format.
+	 * or a JSON `object` in {@link JCard} format.
 	 *
 	 * @example
 	 * ```javascript
@@ -34,6 +68,7 @@ export class VCard {
 	 */
 	constructor(input?: string | Buffer | JCard) {
 		this.props = new Map<string, Property[]>()
+		this.version = VCard.versions[VCard.versions.length - 1]
 
 		if (!input) return
 		// read from vCard
@@ -91,7 +126,7 @@ export class VCard {
 	}
 
 	/**
-	 * Retrieve an array of Property objects under the specified field.
+	 * Retrieve an array of {@link Property} objects under the specified field.
 	 * Returns [] if there are no Property objects found.
 	 * Properites are always stored in an array.
 	 * @param field to get.
@@ -104,17 +139,17 @@ export class VCard {
 	}
 
 	/**
-	 * Set the contents of a field to contain a single Property.
+	 * Set the contents of a field to contain a single {@link Property}.
 	 *
 	 * Accepts either 2-4 arguments to construct a Property,
 	 * or 1 argument of a preexisting Property object.
 	 *
 	 * This will always overwrite all existing properties of the given
-	 * field. For just adding a new property, see `VCard#add()`
+	 * field. For just adding a new property, see {@link VCard#add}
 	 * @param arg the field, or a Property object
-	 * @param value
-	 * @param params
-	 * @param group
+	 * @param value the value for the Property object
+	 * @param params the parameters for the Property object
+	 * @param group the group for the Property object
 	 */
 	public set(
 		arg: string | Property,
@@ -139,15 +174,15 @@ export class VCard {
 	}
 
 	/**
-	 * Adds a property without modifying other properties.
+	 * Adds a {@link Property} without modifying other properties.
 	 *
-	 * Accepts either 2.4 arguments to construct a Property,
-	 * or 1 argument of a preexisting Property object.
+	 * Accepts either 2.4 arguments to construct a {@link Property},
+	 * or 1 argument of a preexisting {@link Property} object.
 	 *
-	 * @param arg the field, or a Property object
-	 * @param value
-	 * @param params
-	 * @param group
+	 * @param arg the field, or a {@link Property} object
+	 * @param value the value for the Property object
+	 * @param params the parameters for the Property object
+	 * @param group the group for the Property object
 	 */
 	public add(
 		arg: string | Property,
@@ -181,8 +216,8 @@ export class VCard {
 	}
 
 	/**
-	 * Removes a property, or all properties of the supplied field.
-	 * @param arg the field, or a Property object
+	 * Removes a {@link Property}, or all properties of the supplied field.
+	 * @param arg the field, or a {@link Property} object
 	 * @param paramFilter (incomplete)
 	 */
 	public remove(
@@ -203,7 +238,7 @@ export class VCard {
 					`Attempted to remove property VCard does not have: ${arg}`
 				)
 
-			propArray.splice(propArray.indexOf(arg))
+			propArray.splice(propArray.indexOf(arg), 1)
 			if (propArray.length === 0) this.props.delete(arg.getField())
 		}
 
@@ -216,9 +251,9 @@ export class VCard {
 	}
 
 	/**
-	 * Returns true if the vCard has at least one property
+	 * Returns true if the vCard has at least one @{link Property}
 	 * of the given field.
-	 * @param field
+	 * @param field The field to query
 	 */
 	public has(field: string): boolean {
 		return this.props.has(field)
@@ -234,7 +269,7 @@ export class VCard {
 	}
 
 	/**
-	 * Returns a jCard object as a JSON array.
+	 * Returns a {@link JCard} object as a JSON array.
 	 */
 	public toJCard(): JCard {
 		const data: JCardProperty[] = [['version', {}, 'text', '4.0']]
@@ -260,7 +295,7 @@ export class VCard {
 
 	/**
 	 * Creates an array of vCard objects from a multi-card `.vcf` string.
-	 * @param input
+	 * @param input string or Buffer containing 1 or more vCards
 	 */
 	public static fromMultiCardString(input: string | Buffer): VCard[] {
 		const cardStrings = String(input).split(/(?=BEGIN\:VCARD)/gi)
@@ -269,7 +304,7 @@ export class VCard {
 
 	/**
 	 * Returns true if the version is supported.
-	 * @param version
+	 * @param version The version to query
 	 */
 	public static isSupported(version: string) {
 		return (
@@ -279,6 +314,7 @@ export class VCard {
 	}
 }
 
+/** @hidden */
 export const normalizeCard = (input: string | Buffer): string => {
 	return (
 		String(input)
@@ -291,6 +327,7 @@ export const normalizeCard = (input: string | Buffer): string => {
 	)
 }
 
+/** @hidden */
 export const formatCard = (card: VCard, _version: CardVersion) => {
 	const version =
 		_version || card.version || VCard.versions[VCard.versions.length - 1]
