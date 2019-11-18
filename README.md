@@ -31,7 +31,8 @@ VERSION:4.0
 N:Saw;Timber;;;
 FN:Timber Saw
 TITLE:Rizzrack, the Timbersaw
-TEL;TYPE=work:(123) 456 7890
+TEL:(123) 456 7890
+TEL;TYPE=work:(987) 654 3210
 END:VCARD
 ```
 
@@ -43,7 +44,8 @@ END:VCARD
 		["n", {}, "text", ["Saw", "Timber", "", "", ""]],
 		["fn", {}, "text", "Timber Saw"],
 		["title", {}, "text", "Rizzrack, the Timbersaw"],
-		["tel", { "type": ["work"] }, "text", "(123) 456 7890"]
+		["tel", {}, "text", "(123) 456 7890"],
+		["tel", { "type": ["work"] }, "text", "(987) 654 3210"]
 	]
 ]
 ```
