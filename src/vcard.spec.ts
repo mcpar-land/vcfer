@@ -73,6 +73,13 @@ describe('VCard class', () => {
 		expect(card.get('tel')[2].group).toBe('item1')
 	})
 
+	test('get() with filter', () => {
+		expect(card.get('tel', 'voice').length).toBe(3)
+		expect(card.get('tel', 'home').length).toBe(2)
+		expect(card.get('tel', 'pref').length).toBe(1)
+		expect(card.get('tel', 'pref')[0].value).toBe('tel:+11115551212')
+	})
+
 	test('set()', () => {
 		card.set('role', 'Communications')
 		expect(card.get('role')[0].value).toBe('Communications')
@@ -167,14 +174,4 @@ describe('VCard class', () => {
 		const c = new VCard(json)
 		expect(c.toJCard()).toEqual(json)
 	})
-})
-
-test('h', () => {
-	const c = new VCard()
-	c.add('n', 'Saw;Timber;;;')
-	c.add('fn', 'Timber Saw')
-	c.add('title', 'Rizzrack, the Timbersaw')
-	c.add('tel', '(123) 456 7890', { type: ['work'] })
-	console.log(c.toString())
-	console.log(JSON.stringify(c.toJCard(), null, 2))
 })

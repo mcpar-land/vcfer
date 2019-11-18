@@ -130,9 +130,19 @@ export class VCard {
 	 * Returns [] if there are no Property objects found.
 	 * Properites are always stored in an array.
 	 * @param field to get.
-	 * @param type (unfinished. Will be able to filter arrays by type.)
+	 * @param type If provided, only return {@link Property}s with the specified
+	 * type as a param.
 	 */
 	public get(field: string, type?: string): Property[] {
+		if (type) {
+			const props = this.props.get(field)
+			if (!props) return []
+			return props.filter(prop => {
+				const types = prop.params['type']
+				if (!types) return false
+				return Array.isArray(types) ? types.includes(type) : types === type
+			})
+		}
 		return this.props.get(field) || []
 
 		// TODO with type filter-er
