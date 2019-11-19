@@ -151,6 +151,11 @@ export class Property {
 		}
 	}
 
+	/** Returns a copy of the Property's string value. */
+	public getValue(): string {
+		return this.value + ''
+	}
+
 	/** Returns `true` if the property is empty. */
 	public isEmpty(): boolean {
 		return this.value == null && Object.keys(this.params).length === 0

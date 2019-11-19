@@ -29,6 +29,7 @@ A vCard property.
 
 * [addParam](property.md#private-addparam)
 * [getField](property.md#getfield)
+* [getValue](property.md#getvalue)
 * [isEmpty](property.md#isempty)
 * [parseFromJCardProperty](property.md#private-parsefromjcardproperty)
 * [parseFromLine](property.md#private-parsefromline)
@@ -41,7 +42,7 @@ A vCard property.
 
 \+ **new Property**(`arg`: string | [JCardProperty](../index.md#jcardproperty), `value?`: undefined | string, `params?`: undefined | object, `group?`: undefined | string): *[Property](property.md)*
 
-*Defined in [property.ts:41](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L41)*
+*Defined in [property.ts:41](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L41)*
 
 A class describing a single vCard property.
 Will almost always be a member of a
@@ -66,7 +67,7 @@ Name | Type | Description |
 
 • **field**: *string* = ""
 
-*Defined in [property.ts:22](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L22)*
+*Defined in [property.ts:22](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L22)*
 
 ___
 
@@ -74,7 +75,7 @@ ___
 
 • **group**: *string | undefined*
 
-*Defined in [property.ts:32](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L32)*
+*Defined in [property.ts:32](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L32)*
 
 the group of the property.
 
@@ -86,7 +87,7 @@ ___
 
 • **params**: *object*
 
-*Defined in [property.ts:41](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L41)*
+*Defined in [property.ts:41](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L41)*
 
 An jCard parameters object.
 
@@ -106,7 +107,7 @@ ___
 
 • **value**: *string* = ""
 
-*Defined in [property.ts:27](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L27)*
+*Defined in [property.ts:27](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L27)*
 
 the value of the property.
 
@@ -118,7 +119,7 @@ the value of the property.
 
 ▸ **addParam**(`key`: string, `value`: string): *void*
 
-*Defined in [property.ts:144](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L144)*
+*Defined in [property.ts:144](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L144)*
 
 **Parameters:**
 
@@ -135,9 +136,21 @@ ___
 
 ▸ **getField**(): *string*
 
-*Defined in [property.ts:160](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L160)*
+*Defined in [property.ts:165](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L165)*
 
 Returns a readonly string of the property's field.
+
+**Returns:** *string*
+
+___
+
+###  getValue
+
+▸ **getValue**(): *string*
+
+*Defined in [property.ts:155](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L155)*
+
+Returns a copy of the Property's string value.
 
 **Returns:** *string*
 
@@ -147,7 +160,7 @@ ___
 
 ▸ **isEmpty**(): *boolean*
 
-*Defined in [property.ts:155](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L155)*
+*Defined in [property.ts:160](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L160)*
 
 Returns `true` if the property is empty.
 
@@ -159,7 +172,7 @@ ___
 
 ▸ **parseFromJCardProperty**(`_jCardProp`: [JCardProperty](../index.md#jcardproperty)): *void*
 
-*Defined in [property.ts:134](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L134)*
+*Defined in [property.ts:134](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L134)*
 
 **Parameters:**
 
@@ -175,7 +188,7 @@ ___
 
 ▸ **parseFromLine**(`line`: string): *void*
 
-*Defined in [property.ts:92](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L92)*
+*Defined in [property.ts:92](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L92)*
 
 **Parameters:**
 
@@ -191,7 +204,7 @@ ___
 
 ▸ **toJSON**(): *[JCardProperty](../index.md#jcardproperty)*
 
-*Defined in [property.ts:193](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L193)*
+*Defined in [property.ts:198](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L198)*
 
 Returns a JSON array in a [jCard property](../index.md#jcardproperty) format
 
@@ -203,7 +216,7 @@ ___
 
 ▸ **toString**(`version?`: [CardVersion](../index.md#cardversion)): *string*
 
-*Defined in [property.ts:168](https://github.com/mcpar-land/vcfer/blob/117f851/src/property.ts#L168)*
+*Defined in [property.ts:173](https://github.com/mcpar-land/vcfer/blob/8cf5c99/src/property.ts#L173)*
 
 Returns a `.vcf` formatted line.
 

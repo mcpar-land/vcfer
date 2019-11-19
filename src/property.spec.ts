@@ -95,3 +95,10 @@ test('toJSON()', () => {
 
 	expect(p.toJSON()).toStrictEqual(json)
 })
+
+test('valueOf()', () => {
+	p = new Property(
+		'X-SOCIALPROFILE;type=pref;type=twitter:http://twitter.com/johndoe'
+	)
+	expect(p.getValue()).toBe('http://twitter.com/johndoe')
+})

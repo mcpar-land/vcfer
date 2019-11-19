@@ -95,6 +95,14 @@ describe('VCard class', () => {
 		expect(card.get('tel', 'pref')[0].value).toBe('tel:+11115551212')
 	})
 
+	test('getOne()', () => {
+		expect(card.getOne('tel')?.value).toBe('tel:+11115551212')
+		expect(card.getOne('tel', 'home')?.value).toBe('tel:+14045551212')
+		expect(card.getOne('adr')?.value).toBe(
+			';;100 Waters Edge;Baytown;LA;30314;United States of America'
+		)
+	})
+
 	test('set()', () => {
 		card.set('role', 'Communications')
 		expect(card.get('role')[0].value).toBe('Communications')

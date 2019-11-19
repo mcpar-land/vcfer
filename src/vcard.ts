@@ -153,6 +153,20 @@ export class VCard {
 	}
 
 	/**
+	 * Retrieve a _single_ Property of the specified field. Attempts to pick based
+	 * on the following priorities, in order:
+	 * - `TYPE={type}` of the value specified in the `type` argument. Ignored
+	 * if the argument isn't supplied.
+	 * - `TYPE=pref` is present.
+	 * - is the Property at index 0 from get(field)
+	 * @param field
+	 * @param type
+	 */
+	public getOne(field: string, type?: string): Property | undefined {
+		return this.get(field, type || 'pref')[0] || this.get(field)[0]
+	}
+
+	/**
 	 * Set the contents of a field to contain a single {@link Property}.
 	 *
 	 * Accepts either 2-4 arguments to construct a Property,
