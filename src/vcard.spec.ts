@@ -197,4 +197,43 @@ describe('VCard class', () => {
 		const c = new VCard(json)
 		expect(c.toJCard()).toEqual(json)
 	})
+
+	test('parseFullName()', () => {
+		const c = new VCard()
+		const oldFn = c.getOne('fn')?.getValue()
+		c.set('n', 'Doe;John;;;')
+		expect(c.parseFullName().value).toBe('John Doe')
+		expect(c.getOne('fn')?.getValue()).toBe(oldFn)
+
+		c.set('n', 'Doe;John;Delaware;Dr.;Esq.')
+		expect(c.parseFullName().value).toBe('Dr. John Delaware Doe Esq.')
+		expect(c.getOne('fn')?.getValue()).toBe(oldFn)
+
+		// absent values in the middle
+		c.set('n', 'Doe;John;;;PhD.')
+		expect(c.parseFullName().value).toBe('John Doe PhD.')
+		expect(c.getOne('fn')?.getValue()).toBe(oldFn)
+
+		c.set('n', 'Doe;John;Joe,Bob;;PhD.,M.D.')
+		expect(c.parseFullName().value).toBe('John Joe Bob Doe PhD. M.D.')
+		expect(c.getOne('fn')?.getValue()).toBe(oldFn)
+
+		// set (no append)
+		c.set('n', 'Doe;John;Delaware;Dr.;Esq.')
+		c.parseFullName({
+			set: true
+		})
+		expect(c.get('fn').length).toBe(1)
+		expect(c.getOne('fn')?.getValue()).toBe('Dr. John Delaware Doe Esq.')
+
+		// set append
+		c.set('n', 'Dean;Jimmy')
+		c.parseFullName({
+			set: true,
+			append: true
+		})
+		expect(c.get('fn').length).toBe(2)
+		expect(c.get('fn')[0].value).toBe('Dr. John Delaware Doe Esq.')
+		expect(c.get('fn')[1].value).toBe('Jimmy Dean')
+	})
 })

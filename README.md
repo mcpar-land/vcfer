@@ -8,11 +8,27 @@ This is a vcf interpreter written in typescript, based heavily on [node-vcf](htt
 
 ---
 
-## Usage
+## Installation
+```bash
+npm i -s vcfer
+```
+```
+yarn add vcfer
+```
+
+## Import
 
 ```javascript
 import VCard from 'vcfer'
+```
 
+```javascript
+const VCard = require('vcfer').default
+```
+
+## Usage
+
+```javascript
 const card = new VCard()
 
 card.add('n', 'Saw;Timber;;;')
@@ -56,6 +72,15 @@ A card can be loaded from a file.
 const card = new VCard(fs.readFileSync('timbersaw.vcf'))
 ```
 
+Properties can be worked with directly.
+```javascript
+import VCard, { Property } from 'vcfer'
+
+const emailProp = new Property('email', 'timbersaw@radiant.org')
+card.set(emailProp)
+console.log(card.toString())
+```
+----
 ## Contributing
 
 vCard is a complicated specification, and different providers (iOS, Android, etc.) all export their contacts in slightly different ways and with a multitude of different fields -- some of which are covered by the [8+ year old RFC specification](https://tools.ietf.org/html/rfc6350), but many of which are not.

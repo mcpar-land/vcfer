@@ -325,6 +325,73 @@ export class VCard {
 	}
 
 	/**
+	 * Automatically generate the 'fn' property from the preferred 'n' property.
+	 *
+	 * #### `set` (`boolean`)
+	 *
+	 * - `false`: (default) return the generated full name string without
+	 * modifying the VCard.
+	 *
+	 * - `true`: modify the VCard's `fn` property directly, as specified
+	 * by `append`
+	 *
+	 * #### `append` (`boolean`)
+	 *
+	 * (ignored if `set` is `false`)
+	 *
+	 * - `false`: (default) replace the existing 'fn' property/properties with
+	 * a new one.
+	 *
+	 * - `true`: append a new `fn` property to the array.
+	 *
+	 * see: [RFC 6350 section 6.2.1](https://tools.ietf.org/html/rfc6350#section-6.2.1)
+	 */
+
+	public parseFullName(
+		options: {
+			append?: boolean
+			set?: boolean
+		} = {}
+	): Property {
+		let { append = false, set = false } = options
+		// Position in n -> position in fn
+		const positionMappings = [3, 1, 2, 0, 4]
+		const n = this.getOne('n')
+		let fnString: string = ''
+
+		if (n === undefined)
+			throw new Error(
+				// prettier-ignore
+				'\'fn\' property not present in card, cannot parse full name'
+			)
+
+		const nSplit = (n as Property).getValue().split(';')
+
+		positionMappings.forEach((pos, i) => {
+			const splitStr = nSplit[pos]
+			if (!splitStr) return
+
+			// comma separated values separated by spaces
+			fnString += ' ' + splitStr.replace(',', ' ')
+		})
+		fnString = fnString.trim()
+
+		const fn = new Property('fn', fnString)
+
+		if (set) {
+			if (append) {
+				this.add(fn)
+			} else {
+				this.set(fn)
+			}
+		}
+
+		return fn
+	}
+
+	/* ======================================================================== */
+
+	/**
 	 * Creates an array of vCard objects from a multi-card `.vcf` string.
 	 * @param input string or Buffer containing 1 or more vCards
 	 */
