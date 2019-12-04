@@ -1,4 +1,4 @@
-import { camel } from 'change-case'
+import { camelCase } from 'change-case'
 import capitalDashCase from './util/capital-dash-case'
 import { CardVersion } from './vcard'
 
@@ -96,7 +96,7 @@ export class Property {
 		if (!match) throw new Error('Invalid format for vcf line:\n' + line)
 
 		const name = match[1].split('.')
-		const property = camel(name.pop() as string)
+		const property = camelCase(name.pop() as string)
 		const group = name.pop()
 		const value = match[3]
 
@@ -107,7 +107,7 @@ export class Property {
 
 		for (const p of paramArray) {
 			const parts = p.split('=')
-			let k = camel(parts[0])
+			let k = camelCase(parts[0])
 			let v = parts[1]
 			if (v == null || v === '') {
 				v = parts[0]
@@ -133,7 +133,7 @@ export class Property {
 
 	private parseFromJCardProperty(_jCardProp: JCardProperty) {
 		const jCardProp = JSON.parse(JSON.stringify(_jCardProp))
-		this.field = camel(jCardProp[0])
+		this.field = camelCase(jCardProp[0])
 		this.params = jCardProp[1]
 		this.params['value'] = jCardProp[2]
 		this.value = Array.isArray(jCardProp[3])
