@@ -123,73 +123,102 @@ describe('VCard class', () => {
 		expect(card.get('tel')[0].value).toBe('tel:+11234567890')
 	})
 
-	test('add()', () => {
-		expect(card.get('tel').length).toBe(3)
+	describe('add', () => {
+		test('adds properties', () => {
+			expect(card.get('tel').length).toBe(3)
 
-		card.add('tel', 'tel:+11234567890')
-		expect(card.get('tel').length).toBe(4)
+			card.add('tel', 'tel:+11234567890')
+			expect(card.get('tel').length).toBe(4)
 
-		card.add('tel', 'tel:+16666666666', { type: ['work', 'pref'] }, 'group1')
-		expect(card.get('tel').length).toBe(5)
-		expect(card.get('tel')[4].value).toBe('tel:+16666666666')
-		expect(card.get('tel')[4].params['type']).toStrictEqual(['work', 'pref'])
-		expect(card.get('tel')[4].group).toBe('group1')
+			card.add('tel', 'tel:+16666666666', { type: ['work', 'pref'] }, 'group1')
+			expect(card.get('tel').length).toBe(5)
+			expect(card.get('tel')[4].value).toBe('tel:+16666666666')
+			expect(card.get('tel')[4].params['type']).toStrictEqual(['work', 'pref'])
+			expect(card.get('tel')[4].group).toBe('group1')
 
-		card.add(
-			new Property(
+			card.add(
+				new Property(
+					'tel',
+					'tel:+12222222222',
+					{ type: ['work', 'pref'] },
+					'group1'
+				)
+			)
+			expect(card.get('tel').length).toBe(6)
+			expect(card.get('tel')[5].value).toBe('tel:+12222222222')
+			expect(card.get('tel')[5].params['type']).toStrictEqual(['work', 'pref'])
+			expect(card.get('tel')[5].group).toBe('group1')
+
+			// console.log(card.toString())
+		})
+
+		test("doesn't clone added properties", () => {
+			let p: Property | undefined = new Property(
 				'tel',
 				'tel:+12222222222',
 				{ type: ['work', 'pref'] },
 				'group1'
 			)
-		)
-		expect(card.get('tel').length).toBe(6)
-		expect(card.get('tel')[5].value).toBe('tel:+12222222222')
-		expect(card.get('tel')[5].params['type']).toStrictEqual(['work', 'pref'])
-		expect(card.get('tel')[5].group).toBe('group1')
 
-		// console.log(card.toString())
+			card.add(p)
+
+			expect(card.get('tel').length).toBe(4)
+			expect(card.get('tel')[3]).toBe(p)
+			expect(card.get('tel')[3].value).toBe('tel:+12222222222')
+
+			p.value = '2222222222'
+
+			expect(card.get('tel')[3].value).toBe('2222222222')
+
+			p = new Property('email', 'adsf')
+
+			expect(card.get('tel')[3].value).not.toBe(p)
+		})
 	})
 
-	test('remove()', () => {
-		expect(card.get('title')[0].value).toBe('Shrimp Man')
-		card.remove('title')
-		expect(card.get('title').length).toBe(0)
-		expect(card.get('tel')[0].value).toBe('tel:+11115551212')
-		card.remove(card.get('tel')[0])
-		expect(card.get('tel')[0].value).toBe('tel:+14045551212')
-		card.remove(card.get('tel')[1])
-		expect(card.get('tel')[0].value).toBe('tel:+14045551212')
-		expect(card.get('tel').length).toBe(1)
-		card.remove(card.get('tel')[0])
-		expect(card.get('tel').length).toBe(0)
+	describe('remove()', () => {
+		test('removes properties', () => {
+			expect(card.get('title')[0].value).toBe('Shrimp Man')
+			card.remove('title')
+			expect(card.get('title').length).toBe(0)
+			expect(card.get('tel')[0].value).toBe('tel:+11115551212')
+			card.remove(card.get('tel')[0])
+			expect(card.get('tel')[0].value).toBe('tel:+14045551212')
+			card.remove(card.get('tel')[1])
+			expect(card.get('tel')[0].value).toBe('tel:+14045551212')
+			expect(card.get('tel').length).toBe(1)
+			card.remove(card.get('tel')[0])
+			expect(card.get('tel').length).toBe(0)
 
-		expect(() => card.remove(new Property('asdf', '1234'))).toThrowError(
-			'Attempted to remove property VCard does not have: ASDF:1234'
-		)
-		// @ts-ignore
-		expect(() => card.remove({})).toThrowError(
-			'invalid argument of VCard.remove(), expects ' +
-				'string and optional param filter or a Property'
-		)
+			expect(() => card.remove(new Property('asdf', '1234'))).toThrowError(
+				'Attempted to remove property VCard does not have: ASDF:1234'
+			)
+			// @ts-ignore
+			expect(() => card.remove({})).toThrowError(
+				'invalid argument of VCard.remove(), expects ' +
+					'string and optional param filter or a Property'
+			)
+		})
 	})
 
-	test('toString() renders populated properties', () => {
-		const c = new VCard()
-		c.set('tel', '000')
-		expect(/TEL:000/i.test(c.toString())).toBe(true)
-	})
+	describe('toString()', () => {
+		test('renders populated properties', () => {
+			const c = new VCard()
+			c.set('tel', '000')
+			expect(/TEL:000/i.test(c.toString())).toBe(true)
+		})
 
-	test('toString() does not render empty properties', () => {
-		const c = new VCard()
-		c.set('tel', undefined)
-		expect(/TEL/i.test(c.toString())).toBe(false)
-	})
+		test('does not render empty properties', () => {
+			const c = new VCard()
+			c.set('tel', undefined)
+			expect(/TEL/i.test(c.toString())).toBe(false)
+		})
 
-	test('toString prefixes group', () => {
-		const c = new VCard()
-		card.set('tel', '000', {}, 'item1')
-		expect(/item1.TEL:00/i.test(card.toString())).toBe(true)
+		test('prefixes group', () => {
+			const c = new VCard()
+			card.set('tel', '000', {}, 'item1')
+			expect(/item1.TEL:00/i.test(card.toString())).toBe(true)
+		})
 	})
 
 	test('toJCard()', () => {
