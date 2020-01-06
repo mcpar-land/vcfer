@@ -1,6 +1,6 @@
 {
 	"name": "vcfer",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "A robust, heavily typed vCard and jCard parser.",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
