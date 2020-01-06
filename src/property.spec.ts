@@ -96,6 +96,17 @@ test('toJSON()', () => {
 	expect(p.toJSON()).toStrictEqual(json)
 })
 
+test('isEmpty', () => {
+	p = new Property('n', ';;;;')
+	expect(p.isEmpty()).toBe(true)
+
+	p = new Property('n', '')
+	expect(p.isEmpty()).toBe(true)
+
+	p = new Property('n', 'dodger;five;;;')
+	expect(p.isEmpty()).toBe(false)
+})
+
 test('valueOf()', () => {
 	p = new Property(
 		'X-SOCIALPROFILE;type=pref;type=twitter:http://twitter.com/johndoe'

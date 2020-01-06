@@ -156,12 +156,18 @@ export class Property {
 		return this.value + ''
 	}
 
-	/** Returns `true` if the property is empty. */
+	/** Returns `true` if all the following are true:
+	 * - the property's value contains charactes other than `;`
+	 * - the property has no parameters
+	 */
 	public isEmpty(): boolean {
-		return this.value == null && Object.keys(this.params).length === 0
+		return (
+			(this.value == null || !/[^;]+/.test(this.value)) &&
+			Object.keys(this.params).length === 0
+		)
 	}
 
-	/** Returns a readonly string of the property's field. */
+	/** Returns a readonly string copy of the property's field. */
 	public getField(): string {
 		return this.field + ''
 	}
